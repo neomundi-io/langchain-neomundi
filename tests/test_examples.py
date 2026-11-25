@@ -80,8 +80,8 @@ def test_minimal_example_explains_a_missing_optional_provider():
     env = dict(os.environ)
     env["NEOMUNDI_API_KEY"] = "ct_test_0000000000000000000000000000"
     # Make the optional provider unimportable without uninstalling it.
-    env["PYTHONPATH"] = str(Path(__file__).parent / "_blocked") + os.pathsep + env.get(
-        "PYTHONPATH", ""
+    env["PYTHONPATH"] = (
+        str(Path(__file__).parent / "_blocked") + os.pathsep + env.get("PYTHONPATH", "")
     )
     result = subprocess.run(
         [sys.executable, str(EXAMPLES / "01_minimal.py"), "--dry-run"],
