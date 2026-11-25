@@ -39,17 +39,13 @@ jobs:
       # something has gone wrong with the test harness.
       - name: Tests
         run: pytest -q
+      # No inline heredoc: this matrix includes windows-latest, where the
+      # step shell is PowerShell and a heredoc is a parse error.
       - name: Package builds and carries py.typed
         run: |
           python -m pip install build
           python -m build --wheel
-          python - <<'PY'
-          import glob, zipfile
-          wheel = sorted(glob.glob("dist/*.whl"))[-1]
-          names = zipfile.ZipFile(wheel).namelist()
-          assert "langchain_neomundi/py.typed" in names, names
-          print("ok:", wheel)
-          PY
+          python scripts/check_wheel.py
 
   lint:
     name: Lint
