@@ -42,6 +42,18 @@ dev = [
     "pytest>=8.0",
 ]
 
+# Only what `examples/` and the notebook drive. Never a runtime dependency
+# of the package: the handler is provider-agnostic.
+examples = [
+    "langchain-ollama>=0.2",
+]
+
+notebook = [
+    "nbformat>=5.9",
+    "nbclient>=0.9",
+    "ipykernel>=6.29",
+]
+
 [project.urls]
 Homepage = "https://github.com/neomundi-io/langchain-neomundi"
 Repository = "https://github.com/neomundi-io/langchain-neomundi"

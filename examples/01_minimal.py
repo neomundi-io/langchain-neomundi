@@ -9,6 +9,11 @@ Then, with a real key, measure for real (0.030 CHF per observation):
 
     export NEOMUNDI_API_KEY=ct_live_...
     python examples/01_minimal.py
+
+The LLM here is a local Ollama model, which is free but is **not** a
+dependency of this package. Install it with the `examples` extra:
+
+    pip install "langchain-neomundi[examples]"
 """
 
 from __future__ import annotations
@@ -18,9 +23,29 @@ import os
 import sys
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
 
 from langchain_neomundi import NeoMundiCallbackHandler
+
+
+def load_model(name: str):
+    """Import the provider lazily, and say what to do if it is absent.
+
+    Imported here rather than at module level so that a missing optional
+    provider produces an instruction instead of a traceback -- and so the
+    key check below runs first either way.
+    """
+    try:
+        from langchain_ollama import ChatOllama
+    except ModuleNotFoundError:
+        print(
+            "This example drives a local Ollama model, which is optional.\n"
+            "  pip install 'langchain-neomundi[examples]'\n"
+            "and make sure Ollama is running, or adapt this file to the\n"
+            "provider you already use -- the handler is provider-agnostic.",
+            file=sys.stderr,
+        )
+        raise SystemExit(3) from None
+    return ChatOllama(model=name, temperature=0)
 
 
 def main() -> int:
@@ -30,6 +55,8 @@ def main() -> int:
     parser.add_argument("--model", default="llama3.2:3b")
     args = parser.parse_args()
 
+    # Checked before anything else is imported or built: a missing key is
+    # the most likely mistake, and it must not hide behind a provider error.
     api_key = os.environ.get("NEOMUNDI_API_KEY")
     if not api_key:
         print("Set NEOMUNDI_API_KEY. The base URL is never assumed.", file=sys.stderr)
@@ -41,9 +68,7 @@ def main() -> int:
         submit=not args.dry_run,
     )
 
-    chain = ChatPromptTemplate.from_messages([("human", "{question}")]) | ChatOllama(
-        model=args.model, temperature=0
-    )
+    chain = ChatPromptTemplate.from_messages([("human", "{question}")]) | load_model(args.model)
 
     answer = chain.invoke(
         {"question": "In one sentence, what is the capital of France?"},

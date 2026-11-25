@@ -157,6 +157,14 @@ pip install -e ".[dev]"
 pytest
 ```
 
+Les exemples pilotent un modèle Ollama local, **facultatif** et qui n'est pas
+une dépendance du paquet — le gestionnaire est agnostique du fournisseur.
+Pour les exécuter :
+
+```bash
+pip install -e ".[dev,examples]"
+```
+
 Hors ligne par conception : chaque test passe par `httpx.MockTransport`, et l'URL de base est `https://example.invalid` (RFC 2606), pour qu'un transport simulé oublié échoue sur le DNS plutôt que d'atteindre un serveur.
 
 Pour reproduire la preuve d'exécution réelle — **cela dépense de l'argent** :

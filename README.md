@@ -157,6 +157,13 @@ pip install -e ".[dev]"
 pytest
 ```
 
+The examples drive a local Ollama model, which is **optional** and not a
+dependency of the package — the handler is provider-agnostic. To run them:
+
+```bash
+pip install -e ".[dev,examples]"
+```
+
 Offline by design: every test goes through `httpx.MockTransport`, and the base URL is `https://example.invalid` (RFC 2606) so a forgotten mock fails DNS rather than reaching a server.
 
 To reproduce the real-execution proof — **this spends money**:

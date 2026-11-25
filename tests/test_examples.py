@@ -49,9 +49,18 @@ def test_example_is_syntactically_valid(name):
     compile(source, name, "exec")
 
 
-def test_minimal_example_refuses_without_a_key(monkeypatch):
-    """It must fail loudly rather than reach for a default host or key."""
-    env = {k: v for k, v in __import__("os").environ.items() if k != "NEOMUNDI_API_KEY"}
+def test_minimal_example_refuses_without_a_key():
+    """It must fail loudly rather than reach for a default host or key.
+
+    The key check has to come *before* the provider import. CI caught the
+    opposite ordering: without the optional `langchain-ollama` installed,
+    the example died on ModuleNotFoundError (exit 1) and never reached its
+    own error message -- so a developer missing a key was told the wrong
+    thing.
+    """
+    import os
+
+    env = {k: v for k, v in os.environ.items() if k != "NEOMUNDI_API_KEY"}
     result = subprocess.run(
         [sys.executable, str(EXAMPLES / "01_minimal.py")],
         capture_output=True,
@@ -59,5 +68,28 @@ def test_minimal_example_refuses_without_a_key(monkeypatch):
         timeout=60,
         env=env,
     )
-    assert result.returncode == 2
+    assert result.returncode == 2, result.stderr
     assert "NEOMUNDI_API_KEY" in result.stderr
+    assert "ModuleNotFoundError" not in result.stderr
+
+
+def test_minimal_example_explains_a_missing_optional_provider():
+    """A missing optional provider must produce an instruction, not a trace."""
+    import os
+
+    env = dict(os.environ)
+    env["NEOMUNDI_API_KEY"] = "ct_test_0000000000000000000000000000"
+    # Make the optional provider unimportable without uninstalling it.
+    env["PYTHONPATH"] = str(Path(__file__).parent / "_blocked") + os.pathsep + env.get(
+        "PYTHONPATH", ""
+    )
+    result = subprocess.run(
+        [sys.executable, str(EXAMPLES / "01_minimal.py"), "--dry-run"],
+        capture_output=True,
+        text=True,
+        timeout=60,
+        env=env,
+    )
+    assert result.returncode == 3, (result.returncode, result.stderr)
+    assert "pip install" in result.stderr
+    assert "Traceback" not in result.stderr
