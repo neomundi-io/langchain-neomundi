@@ -1,5 +1,47 @@
 <div align="center">
 
+# Moved
+
+**This integration now lives in the NeoMundi Developer Integration Library.**
+
+### → [github.com/neomundi-io/neomundi-integrations](https://github.com/neomundi-io/neomundi-integrations)
+
+**[The LangChain integration](https://github.com/neomundi-io/neomundi-integrations/tree/main/integrations/langchain)** · **[Library index](https://github.com/neomundi-io/neomundi-integrations#readme)** · **[Catalogue](https://github.com/neomundi-io/neomundi-integrations/blob/main/CATALOG.md)**
+
+</div>
+
+---
+
+## Why it moved
+
+The library is a monorepo, so a hundred integrations do not become a
+hundred repositories. The decision is recorded as DEVREL-LIB-01.
+
+**Nothing was lost.** The full history of this repository was grafted into
+the library with `git subtree`, so every commit, the mission report and the
+execution proofs are still readable there — under
+`integrations/langchain/`.
+
+This repository is kept, archived and read-only, because its URL may
+already have been shared. It is not deleted: a moved project that answers
+404 is worse than one that answers *here is where it went*.
+
+## What this means for you
+
+| If you | Then |
+| --- | --- |
+| want to install it | follow the library's README — the package name is unchanged |
+| had starred or watched this repo | star [the library](https://github.com/neomundi-io/neomundi-integrations) instead |
+| linked to a file here | the same file exists under `integrations/langchain/` in the library |
+| were reading the evidence | it moved with its history, and is still verified by CI |
+
+---
+
+<details>
+<summary>The original README, kept for reference</summary>
+
+<div align="center">
+
 [![English](https://img.shields.io/badge/EN-English-2563eb?style=flat-square)](README.md) · [![Français](https://img.shields.io/badge/FR-Fran%C3%A7ais-2563eb?style=flat-square)](README_FR.md)
 
 # LangChain × NeoMundi
@@ -178,3 +220,6 @@ python scripts/real_execution_proof.py --max-billed 10
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
+
+
+</details>
