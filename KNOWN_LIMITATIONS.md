@@ -112,7 +112,7 @@ not exist yet.
 
 ## 10. Alpha maturity
 
-53 offline tests and one real-execution proof of 6 observations. That is
+54 offline tests and one real-execution proof of 6 observations. That is
 enough to trust the refusals and the safety guarantee; it is not enough to
 call the package battle-tested. The LangChain callback surface it depends on
 is stable; this package is new.

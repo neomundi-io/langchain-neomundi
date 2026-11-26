@@ -120,12 +120,14 @@ La décision est **déterministe selon l'identifiant d'exécution** : un échant
 
 | | |
 |---|---|
-| Suite hors ligne | **53 tests**, verts sur Python 3.11–3.13. Aucun réseau, aucune clé, aucun coût. |
+| Suite hors ligne | **54 tests**, verts sur Python 3.11–3.13. Aucun réseau, aucune clé, aucun coût. |
 | Exécution réelle | **6 observations** soumises à `https://api.neomundi.io` et **6/6 relues comme persistées**, depuis une vraie chaîne LangChain pilotant un vrai LLM local. Voir [`evidence/`](evidence/). |
 | Version de mesure | La production sert actuellement **3.5.0**, que le SDK n'a **délibérément pas** encore qualifiée. Le gestionnaire avertit une fois par instance. Voir [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md). |
 | Maturité | **Alpha.** La surface de rappels est stable ; le paquet est neuf. |
 
 Lire [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md) avant de tirer une conclusion d'un score. C'est court, et ce n'est pas de la communication.
+
+Comment cela a été construit, ce qui a cassé en route et ce que cela a coûté : [docs/MISSION_REPORT.md](docs/MISSION_REPORT.md). Pourquoi cela vaut la dépense : [docs/VALUE.md](docs/VALUE.md).
 
 ## Référence
 

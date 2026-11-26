@@ -36,7 +36,7 @@ measurement API.
 ### Verified against
 
 - `neomundi` 2.1.0, `langchain-core` 1.8.5, Python 3.11–3.13.
-- 53 offline tests, no network and no credentials required.
+- 54 offline tests, no network and no credentials required.
 - One real-execution proof: 6 observations submitted to
   `https://api.neomundi.io` from a real chain driving a real local LLM, all
   6 read back as persisted. See `evidence/`.
